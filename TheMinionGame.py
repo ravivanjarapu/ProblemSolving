@@ -63,10 +63,18 @@ def minion_game(string):
     cons_words = {}
     vow_words = {}
 
-    combs = [combinations(string, i) for i in range(2, len(string)+1)]
+    combs = [combinations(string, i) for i in range(1, len(string)+1)]
+    combs = [[''.join(i) for i in comb] for comb in combs]
+    temp = list()
+    for i in combs:
+        temp.extend(i)
+    # combs = set(temp)
+    combs = temp
+    # for i in string:
+    #     combs.extend(i)
 
-    for i in string:
-        if i in 'AEIOU' or i in 'aeiou':
+    for i in combs:
+        if i[0] in 'AEIOUaeiou':
             vow_words[i] = vow_words.get(i, 0) + 1
         else:
             cons_words[i] = cons_words.get(i, 0) + 1
