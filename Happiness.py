@@ -35,18 +35,54 @@ Hence, the total happiness is .
 
 
 def method_a():
-    # This works fine for all inputs however, due to loop, the time increases with O(n) complexity
-    result = 0
+    happiness = 0
     for i in arr:
         if i in a:
-            result += 1
+            happiness += 1
         elif i in b:
-            result -= 1
-    return result
+            happiness -= 1
+    return happiness
+
+
+def method_b():
+    happiness = 0
+    for i in a:
+        if i in arr:
+            happiness += 1
+    for i in b:
+        if i in arr:
+            happiness -= 1
+    return happiness
+
+
+def method_c():
+    """
+
+    True-False
+    Out[61]: 1
+
+    False-True
+    Out[62]: -1
+
+    """
+    return sum([(i in a) - (i in b) for i in arr])
 
 
 if __name__ == '__main__':
     n, m = input().split()
-    arr = tuple(input().split())
-    a, b = tuple(input().split()), tuple(input().split())
+    arr = input().split()
+    a, b = input().split(), input().split()
+    a, b, arr = set(a), set(b), tuple(arr)
+    # Above line makes the code fast
+
     print(method_a())
+    # print(method_b())
+    # print(method_c())
+    '''
+    %timeit method_a()
+    451 ns ± 15.8 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+    %timeit method_b()
+    592 ns ± 18.5 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each
+    %timeit method_c()
+    938 ns ± 75.9 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+    '''
