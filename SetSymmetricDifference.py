@@ -38,6 +38,14 @@ n = input()
 eng = set(input().split())
 n = input()
 french = set(input().split())
+
+# Method A START
 result = eng.union(french)
 result = result - eng.intersection(french)
 print(len(result))
+# Method A END
+
+# Method B START
+eng.symmetric_difference_update(french)
+print(len(eng))
+# Method B END
