@@ -39,9 +39,23 @@ Output Format
 
 Print the permutations of the string  on separate lines.
 
-Sample Input
 
+Explanation
+
+All possible size  permutations of the string "HACK" are printed in lexicographic sorted order.
+"""
+
+
+from itertools import permutations, combinations,  combinations_with_replacement
+
+S, k = input().split()
+S = sorted(S)
+for i in permutations(S, int(k)):
+    print(''.join(i))
+"""
+Sample Input
 HACK 2
+
 Sample Output
 
 AC
@@ -56,14 +70,36 @@ HK
 KA
 KC
 KH
-Explanation
-
-All possible size  permutations of the string "HACK" are printed in lexicographic sorted order.
 """
 
-# Enter your code here. Read input from STDIN. Print output to STDOUT
-from itertools import permutations
+
+S, size = input().split()
+S, size = sorted(S), int(size)
+i = 1
+
+while i <= int(size):
+    for j in combinations(S, i):
+        print(''.join(j))
+    i += 1
+
 S, k = input().split()
-S = sorted(S)
-for i in permutations(S, int(k)):
-    print(''.join(i))
+S, k = sorted(S), int(k)
+for j in combinations_with_replacement(S, k):
+    print(''.join(j))
+
+"""
+Sample Input
+HACK 2
+
+Sample Output
+AA
+AC
+AH
+AK
+CC
+CH
+CK
+HH
+HK
+KK
+"""
