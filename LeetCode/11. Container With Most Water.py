@@ -34,19 +34,21 @@ class Solution:
     def maxArea(self, height: List[int]) -> int:
         if len(height) in (0, 1):
             return 0
-        p, q = 0, 1
+        p, q = 0, len(height) - 1
         result = 0
-        while q < len(height):
+        while len(height) > q > p:
             print('p, q: ', p, q)
             result = max(result, (min(height[p], height[q]) * (q - p)))
             print('result: ', result, '\n')
             if height[p] < height[q]:
-                p = q
-            q += 1
+                p += 1
+            else:
+                q -= 1
         return result
 
 
 obj = Solution()
 # print(obj.maxArea([1, 2, 3, 4, 5, 6, 7]))
 # print(obj.maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
-print(obj.maxArea([1, 1]))
+# print(obj.maxArea([1, 1]))
+print(obj.maxArea([1, 2, 1]))
