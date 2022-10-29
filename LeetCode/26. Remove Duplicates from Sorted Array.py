@@ -54,24 +54,45 @@ class Solution:
         elif len(nums) == 1:
             return 1
         else:
-            p = 0
-            while p < len(nums) - 1:
-                q = p + 1
-                print('Current p, q:', p, q)
-                print('Before nums: ', nums)
-                print('nums[p]: ', nums[p])
-                print('nums[q]: ', nums[q])
-                while q < len(nums) and nums[p] == nums[q]:
-                    nums.pop(q)
-                p += 1
-                print('After nums: ', nums)
+            '''    
+                Approach with popping elements
+                p = 0
+                while p < len(nums) - 1:
+                    q = p + 1
+                    print('Current p, q:', p, q)
+                    print('Before nums: ', nums)
+                    print('nums[p]: ', nums[p])
+                    print('nums[q]: ', nums[q])
+                    while q < len(nums) and nums[p] == nums[q]:
+                        nums.pop(q)
+                    p += 1
+                    print('After nums: ', nums)
+    
+            return len(nums)'''
 
-        return len(nums)
+            #Approach 2 without popping
+            p, q = 0, 1
+            while q < len(nums):
+                if nums[p] != nums[q]:
+                    p += 1
+                    nums[p] = nums[q]
+                q += 1
+            print('After nums: ', nums)
+            return p + 1
+
+            # result = 1
+            # p, q = 0, 1
+            # while q < len(nums):
+            #     if nums[p] != nums[q]:
+            #         result += 1
+            #         p = q
+            #     q += 1
+            # return result
 
 
 obj = Solution()
 nums = [1, 1, 2, 2, 3, 3, 3, 4]
-nums = [1, 1, 2]
+# nums = [1, 1, 2]
 nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
 nums = [1, 1]
 print(obj.removeDuplicates(nums))
