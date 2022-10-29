@@ -36,7 +36,7 @@ class Solution:
             return 0
         p, q = 0, len(height) - 1
         result = 0
-        while len(height) > q > p:
+        while q > p:
             print('p, q: ', p, q)
             result = max(result, (min(height[p], height[q]) * (q - p)))
             print('result: ', result, '\n')
