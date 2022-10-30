@@ -68,18 +68,23 @@ class Solution:
         # return list(result_set)
         # Using the solution from Two Sum problem
         for i_idx, i in enumerate(nums):
+
             target_value = 0 - i
+            print('\nTarget value: ', target_value)
             go_to_next = False
             for j_idx, j in enumerate(nums[i_idx + 1:]):
                 k = target_value - j
-                hash_set = set(nums[j_idx + 1:])
+                print('Current i, j, k: ', i, j, k)
+                hash_set = set(nums[i_idx + 1:][j_idx + 1:])
                 if k in hash_set:
                     result_set.add(tuple(sorted((i, j, k))))
-                    go_to_next = True
-                    break
+                    print('result_set: ', result_set)
 
-            if go_to_next:
-                continue
+                    # go_to_next = True
+                    # break
+
+            # if go_to_next:
+            #     continue
         return [list(i) for i in result_set]
 
 
@@ -87,4 +92,5 @@ obj = Solution()
 nums = [-1, 0, 1, 2, -1, -4]
 nums = [0, 1, 1]
 nums = [0, 0, 0]
+nums = [1, 2, -2, -1]
 print(obj.threeSum(nums))
