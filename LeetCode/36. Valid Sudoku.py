@@ -73,27 +73,26 @@ class Solution:
         for i in range(0, len(board), 3):
             for j in range(0, len(board), 3):
                 box = []
-                for k in range(i, i+3):
-                    # print('Box:', board[k][j:j+3])
-                    for l in range(j, j+3):
-                        if board[k][l] != '.':
-                            box.append(board[k][l])
+                for k in range(i, i + 3):
+                    box.extend(board[k][j:j + 3])
+
+                box = [element for element in box if element != '.']
                 print('Box:', box)
                 if len(box) != len(set(box)):
                     print('Duplicates Box:', box)
                     return False
-
+        return True
 
 
 obj = Solution()
 board = [
     ["5", "3", ".", ".", "7", ".", ".", ".", "."],
     ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-    [".", "9", "5", ".", ".", ".", ".", "6", "."],
+    [".", "9", "8", ".", ".", ".", ".", "6", "."],
     ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
     ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
     ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
     [".", "6", ".", ".", ".", ".", "2", "8", "."],
     [".", ".", ".", "4", "1", "9", ".", ".", "5"],
     [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
-obj.isValidSudoku(board)
+print(obj.isValidSudoku(board))
