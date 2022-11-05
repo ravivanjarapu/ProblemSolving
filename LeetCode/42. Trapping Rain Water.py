@@ -32,17 +32,25 @@ class Solution:
         result = 0
         left_max, right_max = 0, 0
         while p < q:
-            if left_max > height[p]:
-                result += left_max - height[p]
-            if right_max > height[q]:
-                result += right_max - height[q]
-
-            left_max = max(left_max, height[p])
-            right_max = max(right_max, height[q])
+            # if left_max > height[p]:
+            #     result += left_max - height[p]
+            # if right_max > height[q]:
+            #     result += right_max - height[q]
+            #
+            # left_max = max(left_max, height[p])
+            # right_max = max(right_max, height[q])
 
             if height[p] <= height[q]:
+                if left_max > height[p]:
+                    result += left_max - height[p]
+                else:
+                    left_max = height[p]
                 p += 1
             else:
+                if right_max > height[q]:
+                    result += right_max - height[q]
+                else:
+                    right_max = height[q]
                 q -= 1
         return result
 
