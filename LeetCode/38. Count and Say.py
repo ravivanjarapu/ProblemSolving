@@ -35,10 +35,11 @@ Constraints:
 
 
 class Solution:
-    def countAndSay(self, n: int) -> str:
+    def countAndSay_Recursion(self, n: int) -> str:
         if n == 1:
             return '1'
-        last_value = self.countAndSay(n - 1)
+        # Recursion
+        last_value = self.countAndSay_Recursion(n - 1)
         current = last_value[0]
         count = 0
         result = ''
@@ -50,9 +51,32 @@ class Solution:
                 current = i
                 count = 1
         result += str(count) + current
-        print(n, ':', result)
+        print(result)
+        return result
+
+    def countAndSay_Iteration(self, n: int) -> str:
+        if n == 1:
+            return '1'
+        last_value = '1'
+        result = ''
+        for _ in range(n - 1):
+            current = last_value[0]
+            count = 0
+            result = ''
+
+            for i in last_value:
+                if i == current:
+                    count += 1
+                else:
+                    result += str(count) + current
+                    current = i
+                    count = 1
+            result += str(count) + current
+            last_value = result
+            print(last_value)
         return result
 
 
 obj = Solution()
-print(obj.countAndSay(6))
+print(obj.countAndSay_Iteration(16))
+print(obj.countAndSay_Recursion(16))
