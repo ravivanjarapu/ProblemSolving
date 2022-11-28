@@ -34,30 +34,53 @@ p contains only lowercase English letters, '?' or '*'.
 
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
-        if (not s and not p) or (s == p):
-            return True
         # Clean up *'s
-        p = p.replace('**', '*')
-        if p == '*':
+        while '**' in p:
+            p = p.replace('**', '*')
+        memoiz_dict = {}
+
+        def rec_func(in_str, pattern):
+            if (in_str, pattern) in memoiz_dict:
+                return memoiz_dict[(in_str, pattern)]
+
+            if (not in_str and not pattern) or (in_str == pattern) or (pattern == '*'):
+                memoiz_dict[(in_str, pattern)] = True
+                return True
+
+            if not in_str or not pattern:
+                memoiz_dict[(in_str, pattern)] = False
+                return False
+
+            s_idx, p_idx = 0, 0
+            while s_idx < len(in_str) and p_idx < len(pattern):
+                if pattern[p_idx] in ('?', in_str[s_idx]):
+                    s_idx += 1
+                    p_idx += 1
+                elif pattern[p_idx] == '*':
+                    result = rec_func(in_str[s_idx:], pattern[p_idx + 1:]) or \
+                             rec_func(in_str[s_idx + 1:], pattern[p_idx:])
+                    memoiz_dict[(in_str, pattern)] = result
+                    return result
+                else:
+                    memoiz_dict[(in_str, pattern)] = False
+                    return False
+            if (s_idx < len(in_str)) or (p_idx < len(pattern) and pattern[p_idx:] != '*'):
+                # print('p:', p)
+                memoiz_dict[(in_str, pattern)] = False
+                return False
+            memoiz_dict[(in_str, pattern)] = True
             return True
 
-        if (len(s) < len(p)) or not s or not p:
-            return False
-        s_idx, p_idx = 0, 0
-        while s_idx < len(s) and p_idx < len(p):
-            if s[s_idx] in ('?', p[p_idx]):
-                s_idx += 1
-                p_idx += 1
-            elif p[p_idx] == '*':
-                return self.isMatch(s[s_idx:], p[p_idx + 1:]) or self.isMatch(s[s_idx + 1:], p[p_idx:])
-            else:
-                return False
-        if (s_idx < len(s)) or (p_idx < len(p)):
-            return False
-        return True
+        return rec_func(s, p)
 
 
 obj = Solution()
-print(obj.isMatch(s="aa", p="a"))
-print(obj.isMatch(s="aa", p="*"))
-print(obj.isMatch(s="cb", p="?a"))
+print(obj.isMatch(s="aa", p="a"))  # False
+print(obj.isMatch(s="aa", p="*"))  # True
+print(obj.isMatch(s="cb", p="?a"))  # False
+print(obj.isMatch(s="b", p="b*"))  # True
+print(obj.isMatch(s="ab", p="?*"))  # True
+print(obj.isMatch(s="mississippi", p="m??*ss*?i*pi"))  # False
+print(obj.isMatch(s="ippi", p="*?i*pi"))  # False
+print(obj.isMatch(s="pi", p="?i*pi"))  # False
+print(obj.isMatch(s="", p="******"))  # True
