@@ -27,7 +27,8 @@ from typing import List
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort()
-        result, cur = [], intervals[0]
+        result = []
+        cur = intervals[0]
         for i in intervals[1:]:
             if cur[0] <= i[0] <= cur[1]:
                 if i[1] > cur[1]:
