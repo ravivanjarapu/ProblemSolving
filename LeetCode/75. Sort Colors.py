@@ -34,41 +34,45 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        wp, bp = -1, -1
-        if nums[0] == 1:
-            wp = 0
-        elif nums[0] == 2:
-            bp = 0
-        for i in range(1, len(nums)):
-            if (nums[i] == 2) or (nums[i] >= nums[i - 1]):
-                continue
-            # if nums[i] == 0:
-            #     if rp < 0:
-            #         nums[0], nums[i] = nums[i], nums[0]
-            #         rp = 0
-            #         if nums[i] == 1:
-            #             wp = i
-            #         elif nums[i] == 2:
-            #             bp = i
-            # if nums[i] == 1:
-            #     bp += 1
-            #     nums[bp-1], nums[i] = nums[i], nums[bp-1]
-            #     if nums[bp - 1] == 0:
-            #         wp = i
+        start, end = 0, len(nums) - 1
+        # for i in range(0, len(nums)):
+        #     if (start > end) or (i > end):
+        #         break
+        #
+        #     print('Before: ', nums, 'i: ', i, 'start: ', start, 'end: ', end)
+        #     if nums[i] == 0:
+        #         nums[start], nums[i] = nums[i], nums[start]
+        #         start += 1
+        #     elif nums[i] == 2:
+        #         nums[end], nums[i] = nums[i], nums[end]
+        #         end -= 1
+        #
+        #     print('First:  ', nums, 'i: ', i, 'start: ', start, 'end: ', end)
+        i = 0
+        while start <= end and i <= end:
             if nums[i] == 0:
-                if wp >= 0:
-                    nums[wp], nums[i] = nums[i], nums[wp]
-            elif nums[i] == 1:
-                if wp < 0:
-                    wp = i
-                elif wp > bp:
-                    wp = bp
-            if bp >= 0:
-                nums[i], nums[bp] = nums[bp], nums[i]
-                bp += 1
-            print(nums, 'i: ', i, 'wp: ', wp, 'bp: ', bp)
+                nums[start], nums[i] = nums[i], nums[start]
+                start += 1
+                i += 1
+            elif nums[i] == 2:
+                nums[end], nums[i] = nums[i], nums[end]
+                end -= 1
+            else:
+                i += 1
+
+
 
 obj = Solution()
-input_nums = [2,0,2,1,1,0]
+# input_nums = [2, 0, 2, 1, 1, 0]
+input_nums = [2, 0, 2]
+input_nums = [2, 0, 1]
+input_nums = [2, 0]
+input_nums = [2, 1]
+input_nums = []
+input_nums = [1, 2]
+input_nums = [1, 2, 0]
+input_nums = [1]
+input_nums = [0]
+input_nums = [2]
 obj.sortColors(input_nums)
 print(input_nums)
