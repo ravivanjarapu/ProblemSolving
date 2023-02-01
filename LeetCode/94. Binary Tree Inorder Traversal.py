@@ -38,13 +38,29 @@ class TreeNode:
 
 
 class Solution:
+    # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #     """Recursive traversal"""
+    #     result = []
+    #     if root is not None:
+    #         result.extend(self.inorderTraversal(root.left))
+    #         result.append(root.val)
+    #         result.extend(self.inorderTraversal(root.right))
+    #
+    #     return result
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-
+        """Iterative traversal"""
         result = []
-        if root is not None:
-            result.extend(self.inorderTraversal(root.left))
-            result.append(root.val)
-            result.extend(self.inorderTraversal(root.right))
-
+        stack = []
+        node = root
+        while True:
+            while node:
+                stack.append(node)
+                node = node.left
+            if len(stack) > 0:
+                node = stack.pop()
+                result.append(node.val)
+                node = node.right
+            else:
+                break
         return result
 
