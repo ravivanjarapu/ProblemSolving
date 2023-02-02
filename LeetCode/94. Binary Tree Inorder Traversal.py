@@ -38,17 +38,21 @@ class TreeNode:
 
 
 class Solution:
-    # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-    #     """Recursive traversal"""
-    #     result = []
-    #     if root is not None:
-    #         result.extend(self.inorderTraversal(root.left))
-    #         result.append(root.val)
-    #         result.extend(self.inorderTraversal(root.right))
-    #
-    #     return result
-    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        """Iterative traversal"""
+    def inorderRecursiveTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        """Recursive traversal"""
+        result = []
+        if root is not None:
+            result.extend(self.inorderRecursiveTraversal(root.left))
+            result.append(root.val)
+            result.extend(self.inorderRecursiveTraversal(root.right))
+
+        return result
+
+    @staticmethod
+    def inorderIterativeTraversal(root: Optional[TreeNode]) -> List[int]:
+        """Iterative traversal
+        Time complexity: O(n)   Space complexity:   O(n)
+        """
         result = []
         stack = []
         node = root
@@ -62,5 +66,29 @@ class Solution:
                 node = node.right
             else:
                 break
+        return result
+
+    def inorderIterativeTraversal_Morris(self, root: Optional[TreeNode]) -> List[int]:
+        """
+        Morris traversal -  Time complexity: O(n)   Space complexity:   O(1)
+        https://www.youtube.com/watch?v=Oejc-PVd5ig
+        """
+        result = []
+        cur = root
+        while cur:
+            if cur.left:
+                predecessor = cur.left
+                while predecessor.right and predecessor.right != cur:
+                    predecessor = predecessor.right
+                if not predecessor.right:
+                    predecessor.right = cur
+                    cur = cur.left
+                else:
+                    predecessor.right = None
+                    result.append(cur.val)
+                    cur = cur.right
+            else:
+                result.append(cur.val)
+                cur = cur.right
         return result
 
