@@ -23,7 +23,7 @@ Constraints:
 The number of nodes in the tree is in the range [0, 2000].
 -1000 <= Node.val <= 1000
 """
-import collections
+from collections import deque
 from typing import Optional, List
 
 # Definition for a binary tree node.
@@ -36,26 +36,8 @@ class TreeNode:
 
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        # result = []
-        # if root:
-        #     result.append([root.val])
-        #
-        #     def traverse(node):
-        #         sub_result = []
-        #         if node is not None:
-        #             if node.left is not None:
-        #                 sub_result.append(node.left.val)
-        #             if node.right is not None:
-        #                 sub_result.append(node.right.val)
-        #             if len(sub_result) > 0:
-        #                 result.append(sub_result)
-        #             traverse(node.left)
-        #             traverse(node.right)
-        #
-        #     traverse(root)
-        # return result
         result = []
-        q = collections.deque()
+        q = deque()
         if root:
             q.append(root)
 
