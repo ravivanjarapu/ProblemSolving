@@ -34,16 +34,22 @@ class Solution:
         result = 0
         if len(prices) < 2:
             return result
-        buy_day, sell_day = 0, 1
-        while buy_day < sell_day < len(prices):
+        # buy_day, sell_day = 0, 1
+        # while buy_day < sell_day < len(prices):
+        #     current_profit = prices[sell_day] - prices[buy_day]
+        #     if current_profit > result:
+        #         result = current_profit
+        #     if prices[sell_day] < prices[buy_day]:
+        #         buy_day = sell_day
+        #     sell_day += 1
+
+        buy_day = 0
+        for sell_day in range(1, len(prices)):
             current_profit = prices[sell_day] - prices[buy_day]
             if current_profit > result:
                 result = current_profit
             if prices[sell_day] < prices[buy_day]:
                 buy_day = sell_day
-            sell_day += 1
-
-
 
         return result
 
