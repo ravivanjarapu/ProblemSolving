@@ -55,16 +55,11 @@ class Solution:
                     capture(r, c)
 
         # O --> X
-        for r in range(row_len):
-            for c in range(col_len):
-                if board[r][c] == 'O':
-                    board[r][c] = 'X'
-
         # T --> O
+        look_up = {'O': 'X', "T": 'O'}
         for r in range(row_len):
             for c in range(col_len):
-                if board[r][c] == 'T':
-                    board[r][c] = 'O'
+                board[r][c] = look_up.get(board[r][c], 'X')
 
 
 class Regions(TestCase):
