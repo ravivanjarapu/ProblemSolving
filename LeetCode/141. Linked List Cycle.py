@@ -48,10 +48,22 @@ class ListNode:
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        slow, fast = head, head
-        while fast and fast.next:
+        # Approach without modifying input
+        # slow, fast = head, head
+        # while fast and fast.next:
+        #     slow = slow.next
+        #     fast = fast.next.next
+        #     if slow == fast:
+        #         return True
+        # return False
+        # Approach without modifying input
+
+        # Approach modifying input. Little faster
+        slow = head
+        while slow:
+            if slow.val is None:
+                return True  # This was already visited
+            slow.val = None  # a way to mark visited
             slow = slow.next
-            fast = fast.next.next
-            if slow == fast:
-                return True
         return False
+        # Approach modifying input
