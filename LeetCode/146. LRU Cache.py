@@ -65,14 +65,29 @@ class LRUCache:
         self.__q.move_to_end(key)
 
 
-# Your LRUCache object will be instantiated and called as such:
-# obj = LRUCache(capacity)
-# param_1 = obj.get(key)
-# obj.put(key,value)
+class LRUCache2(OrderedDict):  # This is not optimized approach than above but just an alternative
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key not in self:
+            return -1
+        self.move_to_end(key)
+        return self[key]
+
+    def put(self, key: int, value: int) -> None:
+
+        if key in self:
+            self.move_to_end(key)
+        elif len(self) == self.capacity:
+            self.popitem(last=False)
+        self[key] = value
+
+
 class LRUCacheTester(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.obj = LRUCache(0)
+        cls.obj = LRUCache2(0)
 
     def test_1(self):
         # ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
