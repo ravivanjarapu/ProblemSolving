@@ -38,7 +38,7 @@ class ListNode:
 
 
 class Solution:
-    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # O(1) space and O(n log n) time
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # O(log n) space and O(n log n) time
         if not head or not head.next:
             return head
         # Split to two lists
@@ -68,8 +68,5 @@ class Solution:
                 tail.next = list2
                 list2 = list2.next
             tail = tail.next
-        if list1:
-            tail.next = list1
-        else:
-            tail.next = list2
+        tail.next = list1 if list1 else list2
         return head.next
