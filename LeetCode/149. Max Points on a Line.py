@@ -35,13 +35,13 @@ class Solution:
         result = 1  # Since 1 <= points.length <= 300, at least 1 point is expected
         for i, p1 in enumerate(points):
             # Same reason as above. Since we are taking i as reference, we have at least 1 point
-            counter_dict = defaultdict(lambda: 1)
+            counter_dict = defaultdict(int)
 
             for p2 in points[i + 1:]:
 
                 slope = float('inf') if p1[0] == p2[0] else (p2[1] - p1[1]) / (p2[0] - p1[0])
                 counter_dict[slope] += 1
-                result = max(counter_dict[slope], result)
+                result = max(counter_dict[slope] + 1, result)
         return result
 
 
