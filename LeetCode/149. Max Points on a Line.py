@@ -29,14 +29,15 @@ from unittest import TestCase, main
 
 class Solution:
     def maxPoints(self, points: List[List[int]]) -> int:
+        n = len(points)
+        if n <= 2:
+            return n
         result = 1  # Since 1 <= points.length <= 300, at least 1 point is expected
-        for i in range(len(points)):
+        for i, p1 in enumerate(points):
             # Same reason as above. Since we are taking i as reference, we have at least 1 point
             counter_dict = defaultdict(lambda: 1)
 
-            p1 = points[i]
-            for j in range(i + 1, len(points)):
-                p2 = points[j]
+            for p2 in points[i + 1:]:
 
                 slope = float('inf') if p1[0] == p2[0] else (p2[1] - p1[1]) / (p2[0] - p1[0])
                 counter_dict[slope] += 1
