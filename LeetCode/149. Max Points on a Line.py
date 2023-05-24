@@ -1,5 +1,5 @@
-"""
-Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number of points that lie on the same straight line.
+"""Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number
+of points that lie on the same straight line.
 
 
 
@@ -24,16 +24,41 @@ All the points are unique.
 """
 from typing import List
 from collections import defaultdict
+from unittest import TestCase, main
+
 
 class Solution:
     def maxPoints(self, points: List[List[int]]) -> int:
         result = 1  # Since 1 <= points.length <= 300, at least 1 point is expected
-        counter_dict = defaultdict(int)
         for i in range(len(points)):
+            # Same reason as above. Since we are taking i as reference, we have at least 1 point
+            counter_dict = defaultdict(lambda: 1)
+
             p1 = points[i]
             for j in range(i + 1, len(points)):
                 p2 = points[j]
 
                 slope = float('inf') if p1[0] == p2[0] else (p2[1] - p1[1]) / (p2[0] - p1[0])
                 counter_dict[slope] += 1
+                result = max(counter_dict[slope], result)
+        return result
 
+
+class MaxPointsTester(TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.obj = Solution()
+
+    def test1(self):
+        points = [[1, 1], [2, 2], [3, 3]]
+
+        self.assertEqual(self.obj.maxPoints(points), 3)
+
+    def test2(self):
+        points = [[1, 1], [3, 2], [5, 3], [4, 1], [2, 3], [1, 4]]
+
+        self.assertEqual(self.obj.maxPoints(points), 4)
+
+
+if __name__ == "__main__":
+    main()
