@@ -71,6 +71,15 @@ class ListNode:
 
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        """
+
+        :param headA:
+        :param headB:
+        :return:
+        """
+        ''' 
+        # This solution can be improved in performance although complexity cannot be improved
+         
         size_a, size_b = self.__get_size(headA), self.__get_size(headB)
         print("size_a: ", size_a, " size_b: ", size_b)
 
@@ -89,18 +98,24 @@ class Solution:
                 return pointer_a
             pointer_a = pointer_a.next
             pointer_b = pointer_b.next
-        return None
+        return None'''
 
-    def __get_size(self, head):
-        cur = head
-        size = 0
-        while cur:
-            cur = cur.next
-            size += 1
-        return size
+        pointer_a, pointer_b = headA, headB
+        while pointer_a != pointer_b:
+            pointer_a = pointer_a.next if pointer_a else headB
+            pointer_b = pointer_b.next if pointer_b else headA
+        return pointer_b
 
-    def __get_common_position(self, head, length_diff):
-        pointer = head
-        for _ in range(length_diff):
-            pointer = pointer.next
-        return pointer
+    # def __get_size(self, head):
+    #     cur = head
+    #     size = 0
+    #     while cur:
+    #         cur = cur.next
+    #         size += 1
+    #     return size
+    #
+    # def __get_common_position(self, head, length_diff):
+    #     pointer = head
+    #     for _ in range(length_diff):
+    #         pointer = pointer.next
+    #     return pointer
