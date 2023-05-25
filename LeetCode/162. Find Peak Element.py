@@ -45,7 +45,7 @@ class Solution:
         return result_index
         # This is O(n) time O(1) space solution"""
 
-        # O(log n) time and O( log n) space solution
+        '''# O(log n) time and O( log n) space solution
         n = len(nums)
         if n == 1:
             return 0
@@ -55,7 +55,19 @@ class Solution:
         else:
             return self.findPeakElement(nums[:mid])
 
-        # O(log n) time and O( log n) space solution
+        # O(log n) time and O( log n) space solution'''
+
+        # O(log n) time and O(1) space solution
+        left, right = 0, len(nums) - 1
+
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] > nums[mid+1]:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+        # O(log n) time and O(1) space solution
 
 
 class PeakTester(TestCase):
