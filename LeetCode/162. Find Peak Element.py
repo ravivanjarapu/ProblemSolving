@@ -33,7 +33,7 @@ from unittest import TestCase, main
 
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
-        # This is O(n) time O(1) space solution
+        """# This is O(n) time O(1) space solution
         current_peak = nums[0]
         result_index = 0
         for i, val in enumerate(nums[1:]):
@@ -43,7 +43,19 @@ class Solution:
             else:
                 break
         return result_index
-        # This is O(n) time O(1) space solution
+        # This is O(n) time O(1) space solution"""
+
+        # O(log n) time and O( log n) space solution
+        n = len(nums)
+        if n == 1:
+            return 0
+        mid = n // 2
+        if nums[mid-1] < nums[mid]:
+            return mid + self.findPeakElement(nums[mid:])
+        else:
+            return self.findPeakElement(nums[:mid])
+
+        # O(log n) time and O( log n) space solution
 
 
 class PeakTester(TestCase):
@@ -58,7 +70,16 @@ class PeakTester(TestCase):
         self.assertEqual(self.obj.findPeakElement([1, 2, 1]), 1)
 
     def test3(self):
-        self.assertEqual(self.obj.findPeakElement([1,2,3,1]), 2)
+        self.assertEqual(self.obj.findPeakElement([1, 2, 3, 1]), 2)
+
+    def test4(self):
+        self.assertEqual(self.obj.findPeakElement([1, 2, 1, 3, 5, 6, 4]), 5)
+
+    def test5(self):
+        self.assertEqual(self.obj.findPeakElement([2,1]), 0)
+
+    def test5(self):
+        self.assertEqual(self.obj.findPeakElement([6,5,4,3,2,3,2]), 0)
 
 
 if __name__ == "__main__":
