@@ -36,12 +36,14 @@ class Solution:
     def fractionToDecimal(self, numerator: int, denominator: int) -> str:
         if numerator == 0:
             return str(0)
-        result = ''
-        if (numerator < 0) ^ (denominator < 0):  # Exclusive OR - Both of them being True returns False
-            result += '-'
+
+        # Exclusive OR - Both of them being True returns False
+        result = '-' if (numerator < 0) ^ (denominator < 0) else ''
+
         numerator, denominator = abs(numerator), abs(denominator)
-        quotient, remainder = divmod(numerator, denominator)
-        result += str(quotient)
+        result += str(numerator // denominator)
+        remainder = numerator % denominator
+
         if remainder == 0:
             return result
         result += '.'
