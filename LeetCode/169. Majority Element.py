@@ -33,8 +33,5 @@ class Solution:
         for i in nums:
             if count == 0:
                 result = i
-            if i == result:
-                count += 1
-            else:
-                count -= 1
+            count += (1 if i == result else -1)
         return result
