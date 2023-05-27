@@ -27,4 +27,13 @@ from typing import List
 
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        return True if len(set(nums)) < len(nums) else False
+        # return True if len(set(nums)) < len(nums) else False
+        # Worst case Time and space complexity of above is same as below. But in best and average cases, below is better
+        # This is because we don't add all elements to set and return True as soon as we find duplicate
+        visited = set()
+        for i in nums:
+            if i in visited:
+                return True
+            else:
+                visited.add(i)
+        return False
