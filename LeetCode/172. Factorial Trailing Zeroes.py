@@ -33,17 +33,23 @@ from unittest import TestCase, main
 
 class Solution:
     def trailingZeroes(self, n: int) -> int:
-        if n == 0:
-            return 0
+        # if n == 0:
+        #     return 0
+        # temp, multiplier = n / 10, n // 10
+        # decimal_part = temp - multiplier
+        # # additive = floor(decimal_part) if decimal_part < 0.5 else ceil(decimal_part)
+        # # Below line is same as above but without math imports
+        # additive = int(decimal_part + 0.5)
+        # return (multiplier * 2) + additive
 
-        temp, multiplier = n / 10, n // 10
-        decimal_part = temp - multiplier
-
-        # additive = floor(decimal_part) if decimal_part < 0.5 else ceil(decimal_part)
-        # Below line is same as above but without math imports
-        additive = int(decimal_part + 0.5)
-
-        return (multiplier * 2) + additive
+        '''Since each division reduces n by a factor of 5, the loop runs approximately log base 5 of n times. Hence, the
+        time complexity is logarithmic in terms of n.
+        Trick here is counting the factors of 5 will give us the number of trailing zeroes.'''
+        result = 0
+        while n >= 5:
+            n = n // 5
+            result += n
+        return result
 
 
 class TrailingZeroesTester(TestCase):
