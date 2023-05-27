@@ -1,5 +1,5 @@
-"""
-Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+"""Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in
+any order.
 
 
 
@@ -26,6 +26,8 @@ Follow up: Your algorithm's time complexity must be better than O(n log n), wher
 from typing import List
 from collections import Counter
 import heapq
+
+
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         # O(1) time
@@ -37,9 +39,8 @@ class Solution:
         """
         %timeit heapq.nlargest(2, count.keys(), key=count.get)
         2.78 µs ± 309 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+        
         %timeit [i[0] for i in count.most_common(2)]
         3.72 µs ± 397 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
         """
         return heapq.nlargest(k, counter.keys(), key=counter.get)
-
-
