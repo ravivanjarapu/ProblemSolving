@@ -87,26 +87,28 @@ class Solution:
         # Tweaking above  three pointers approach
         result = []
         nums.sort()
-        for i in range(len(nums)):
-            if (i > 0) and (nums[i] == nums[i - 1]):
+
+        for i, i_val in enumerate(nums):
+            if (i > 0) and (i_val == nums[i - 1]):
                 continue
-            j, k = i + 1, len(nums) - 1
 
-            while k > j:
-
-                sum_value = nums[i] + nums[j] + nums[k]
-                if sum_value == 0:
-                    result.append([nums[i], nums[j], nums[k]])
-                    j += 1
-                    k -= 1
-                elif sum_value < 0:
-                    j += 1
-                    while (k > j > i + 1) and (nums[j] == nums[j - 1]):
-                        j += 1
+            left, right = i + 1, len(nums) - 1
+            while left < right:
+                current_sum = i_val + nums[left] + nums[right]
+                if current_sum < 0:
+                    left += 1
+                elif current_sum > 0:
+                    right -= 1
                 else:
-                    k -= 1
-                    while (j < k < len(nums) - 1) and (nums[k] == nums[k + 1]):
-                        k -= 1
+                    result.append([i_val, nums[left], nums[right]])
+                    left += 1
+
+                    # Since we added this combo already. We should jump over any duplicates
+                    while left < right and nums[left] == nums[left - 1]:
+                        left += 1
+                    # No need to decrement right since for any other value of left, right won't satisfy and will
+                    # automatically decrement in next iteration of the loop
+                    # Instead of left we can do the same with right too in above loop
         return result
 
 
