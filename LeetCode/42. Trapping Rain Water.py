@@ -26,35 +26,33 @@ from typing import List
 
 class Solution:
     def trap(self, height: List[int]) -> int:
+        # https://www.youtube.com/watch?v=ZI2z5pq0TqA - NeetCode
         if len(height) in (0, 1, 2):
             return 0
-        p, q = 0, len(height)-1
-        result = 0
-        left_max, right_max = 0, 0
-        while p < q:
-            # if left_max > height[p]:
-            #     result += left_max - height[p]
-            # if right_max > height[q]:
-            #     result += right_max - height[q]
-            #
-            # left_max = max(left_max, height[p])
-            # right_max = max(right_max, height[q])
 
-            if height[p] <= height[q]:
-                if left_max > height[p]:
-                    result += left_max - height[p]
-                else:
-                    left_max = height[p]
-                p += 1
+        result = 0
+
+        left, right = 0, len(height) - 1
+        left_max, right_max = height[left], height[right]
+        while left < right:
+            if left_max < right_max:
+                left += 1
+                # Since we already know min(left_max, right_max) is left_max, from if condition above, we are not
+                # subtracting from minimum element directly
+                temp = left_max - height[left]
+                left_max = max(left_max, height[left])
+
             else:
-                if right_max > height[q]:
-                    result += right_max - height[q]
-                else:
-                    right_max = height[q]
-                q -= 1
+                right -= 1
+                temp = right_max - height[right]
+                right_max = max(right_max, height[right])
+
+            temp = 0 if temp < 0 else temp
+            result += temp
+
         return result
 
 
 obj = Solution()
 print(obj.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
-print(obj.trap([4,2,0,3,2,5]))
+print(obj.trap([4, 2, 0, 3, 2, 5]))
