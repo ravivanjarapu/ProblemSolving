@@ -22,22 +22,27 @@ from typing import List
 
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
+        # https://www.youtube.com/watch?v=s9fokUqJ76A - NeetCode
+        # Add ( only if open < n
+        # Add ) only if closed < open
+        # if open == closed == n: Valid
         if n == 1:
             return ["()"]
         result = []
-        temp = []
+        stack = []
 
         def get_next(open_p=0, close_p=0):
             if open_p == close_p == n:
-                result.append(''.join(temp))
+                result.append(''.join(stack))
+                return
             if open_p < n:
-                temp.append('(')
+                stack.append('(')
                 get_next(open_p + 1, close_p)
-                temp.pop()
+                stack.pop()
             if close_p < open_p:
-                temp.append(')')
+                stack.append(')')
                 get_next(open_p, close_p + 1)
-                temp.pop()
+                stack.pop()
 
         get_next()
         return result
