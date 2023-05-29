@@ -34,21 +34,14 @@ class Solution:
         stack = []
         reference = {')': '(', '}': '{', ']': '['}
         for c in s:
-            if c in ('(', '{', '['):
-                stack.append(c)
-            elif c in ']})':
-                try:
-                    current_bracket = stack.pop()
-                except IndexError:
-                    return False
-                if reference.get(c) != current_bracket:
+            if c in reference:
+                current_bracket = stack.pop() if stack else '#'
+                if reference[c] != current_bracket:
                     return False
             else:
-                return False
-        if len(stack) > 0:
-            return False
+                stack.append(c)
 
-        return True
+        return not stack  # If stack is empty, this will return True
 
 
 obj = Solution()
