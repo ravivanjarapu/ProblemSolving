@@ -22,17 +22,16 @@ Constraints:
 
 1 <= temperatures.length <= 105
 30 <= temperatures[i] <= 100
+
+Leetcode Hint: If the temperature is say, 70 today, then in the future a warmer temperature must be either 71,
+72, 73, ..., 99, or 100. We could remember when all of them occur next.
 """
 from typing import List
 
 
 class Solution:
-    """
-    Leetcode Hint: If the temperature is say, 70 today, then in the future a warmer temperature must be either 71,
-    72, 73, ..., 99, or 100. We could remember when all of them occur next.
-    """
-
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        '''
         #  O(n) time and O(n) space
         # https://www.youtube.com/watch?v=cTBiBSnjO3c -- Neetcode
         answer = [0] * len(temperatures)
@@ -42,5 +41,22 @@ class Solution:
                 last_highest_temp, last_highest_temp_index = stack.pop()
                 answer[last_highest_temp_index] = i - last_highest_temp_index
             stack.append((temperature, i))
+        return answer
+        '''
 
+        #  Below is O(n) time and O(1) space - We don't use extra space for stack like above
+        # Explanation: https://globalsoftbay.blogspot.com/2023/05/leetcode-739-daily-temperatures.html
+        length = len(temperatures)
+        hottest = 0
+        answer = [0] * length
+        for curr_idx in range(length - 1, -1, -1):
+            curr_temperature = temperatures[curr_idx]
+            if curr_temperature >= hottest:
+                hottest = curr_temperature
+                continue
+
+            days = 1
+            while temperatures[curr_idx + days] <= temperatures[curr_idx]:
+                days += answer[curr_idx + days]
+            answer[curr_idx] = days
         return answer
