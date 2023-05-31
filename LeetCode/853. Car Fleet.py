@@ -53,7 +53,7 @@ class Solution:
         # https://www.youtube.com/watch?v=Pr6T-3yB9RM   - NeetCode
         # O(n log n) time to sort and iterate once. O(n) for stack and zip
         stack = []
-        for p, s in sorted(zip(position, speed))[::-1]:
+        for p, s in sorted(zip(position, speed), reverse=True):
             curr_time = (target - p) / s
             if stack and stack[-1] >= curr_time:
                 continue
