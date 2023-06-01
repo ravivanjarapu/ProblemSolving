@@ -55,7 +55,8 @@ class Solution:
         element of the array.
 
         '''
-        # https://www.youtube.com/watch?v=nIVW4P8b1VA   -   NeetCode
+        '''# https://www.youtube.com/watch?v=nIVW4P8b1VA   -   NeetCode
+        # Complexity is good but not fast enough - Beats just 5.81%
         result = nums[0]  # at least one element is guaranteed as per constraints
         left, right = 0, len(nums) - 1
         while left <= right:
@@ -67,4 +68,17 @@ class Solution:
                 left = mid + 1
             else:
                 right = mid - 1
-        return result
+        return result'''
+
+        # Simpler code and simpler logic
+        # https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/solutions/158940/beat-100-very-simple-python-very-detailed-explanation/
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            else:
+                right = mid
+        return nums[left]   # This happens only when left = right
+
+
