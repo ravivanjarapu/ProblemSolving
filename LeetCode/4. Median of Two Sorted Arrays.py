@@ -42,9 +42,16 @@ class Solution:
         if total % 2 == 0:
             even = True
             median_indices.append(median_indices[-1] + 1)
-        break_length = median_indices[-1] + 1
 
-        while (len(merged_array) < break_length) and (i < m or j < n):
+        if m == 0:
+            return (nums2[median_indices[0]] + nums2[median_indices[1]]) / 2 if even\
+                else nums2[median_indices[0]]
+        if n == 0:
+            return (nums1[median_indices[0]] + nums1[median_indices[1]]) / 2 if even\
+                else nums1[median_indices[0]]
+
+        break_length = median_indices[-1] + 1
+        while len(merged_array) < break_length:
             if i == m:
                 merged_array.append(nums2[j])
                 j += 1
