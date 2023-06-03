@@ -32,13 +32,23 @@ from typing import List
 
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        # OWN LOGIC - O((m+n)/2) time and O((m+n)/2) space complexity
         i, j = 0, 0
         merged_array = []
-        while i < len(nums1) or j < len(nums2):
-            if i == len(nums1):
+        m, n = len(nums1), len(nums2)
+        total = m + n
+        median_indices = [(total - 1) // 2]
+        even = False
+        if total % 2 == 0:
+            even = True
+            median_indices.append(median_indices[-1] + 1)
+        break_length = median_indices[-1] + 1
+
+        while (len(merged_array) < break_length) and (i < m or j < n):
+            if i == m:
                 merged_array.append(nums2[j])
                 j += 1
-            elif j == len(nums2):
+            elif j == n:
                 merged_array.append(nums1[i])
                 i += 1
             elif nums1[i] < nums2[j]:
@@ -47,10 +57,7 @@ class Solution:
             else:
                 merged_array.append(nums2[j])
                 j += 1
+        if even:
+            return (merged_array[-1] + merged_array[-2]) / 2
+        return merged_array[-1]
 
-        length = len(merged_array)
-        if length % 2 == 1:
-            return merged_array[length // 2]
-        else:
-            mid = length // 2
-            return (merged_array[mid] + merged_array[mid - 1]) / 2
