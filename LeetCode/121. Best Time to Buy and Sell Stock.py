@@ -1,7 +1,8 @@
 """
 You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
-You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future
+to sell that stock.
 
 Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 
@@ -31,30 +32,18 @@ from unittest import TestCase, main
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        result = 0
-        if len(prices) < 2:
-            return result
-        # buy_day, sell_day = 0, 1
-        # while buy_day < sell_day < len(prices):
-        #     current_profit = prices[sell_day] - prices[buy_day]
-        #     if current_profit > result:
-        #         result = current_profit
-        #     if prices[sell_day] < prices[buy_day]:
-        #         buy_day = sell_day
-        #     sell_day += 1
-
-        buy_day = 0
+        result, buy_day = 0, 0
         for sell_day in range(1, len(prices)):
-            current_profit = prices[sell_day] - prices[buy_day]
-            if current_profit > result:
-                result = current_profit
+
             if prices[sell_day] < prices[buy_day]:
                 buy_day = sell_day
-
+            else:
+                current_profit = prices[sell_day] - prices[buy_day]
+                result = max(result, current_profit)
         return result
 
 
-class PriceTestCase(TestCase):
+class MaxProfitTester(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.obj = Solution()
