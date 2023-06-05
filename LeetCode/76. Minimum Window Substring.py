@@ -44,10 +44,10 @@ class Solution:
         if t == '':
             return ''
 
-        result = ''
-
         s_counter, t_counter = defaultdict(int), Counter(t)
         have, need = 0, len(t_counter)
+
+        result_start, result_end = -1, float('inf')  # result_end-result_start -> inf-(-1) -> inf+1 is always bigger
 
         left = 0
         for right, char in enumerate(s):
@@ -58,16 +58,15 @@ class Solution:
 
                 while have == need:
                     # Update the result
-                    if (result == '') or (
-                            (right - left + 1) < len(result)):
-                        result = s[left:right + 1]
+                    if (right - left) < (result_end - result_start):
+                        result_start, result_end = left, right  # Storing s[left:right + 1] is slower
 
                     # pop from left
                     s_counter[s[left]] -= 1
                     if s[left] in t_counter and s_counter[s[left]] < t_counter[s[left]]:
                         have -= 1
                     left += 1
-        return result
+        return s[result_start:result_end + 1] if result_start != -1 else ''
 
 
 obj = Solution()
