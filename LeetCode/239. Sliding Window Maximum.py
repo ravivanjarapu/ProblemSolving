@@ -1,5 +1,6 @@
-"""
-You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+"""You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of
+the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right
+by one position.
 
 Return the max sliding window.
 
@@ -31,15 +32,28 @@ Constraints:
 1 <= k <= nums.length
 """
 from typing import List
+from collections import deque
 
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        left, right = 0, k-1
+        q = deque()
+
+        left, right = 0, 0
         length = len(nums)
         result = []
         while right < length:
-            result.append(max(nums[left:right+1]))
-            left += 1
+            while q and nums[q[-1]] < nums[right]:
+                q.pop()
+            q.append(right)  # Add right to window
+
+            if left > q[0]:  # Remove left from window. if index at q[0] is less than left, it is out of window
+                q.popleft()
+
+            # since we started from right=0, we should skip at least k elements to start appending to output
+            if (right + 1) >= k:
+                result.append(nums[q[0]])
+                left += 1
             right += 1
+
         return result
