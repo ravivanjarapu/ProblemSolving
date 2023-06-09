@@ -39,12 +39,21 @@ class ListNode:
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        cur = head
-        new_head = None
-        while cur:
-            temp = cur.next
+        # Iterative solution - This is faster
+        '''new_head = None
+        while head:
+            temp = head.next
+            head.next = new_head
+            new_head = head
+            head = temp
+        return new_head'''
 
-            cur.next = new_head
-            new_head = cur
-            cur = temp
+        #   Recursive solution
+        # 1 -> 2 -> 3 -> 4 -> 5 -> None
+        if (not head) or (not head.next):
+            return head
+        new_head = self.reverseList(head.next) # 5->4->3->2->None and 1->2->None. Head is still pointing to 2
+        head.next.next = head  # 5->4->3->2->1
+        head.next = None  # 5->4->3->2->1->None
         return new_head
+
