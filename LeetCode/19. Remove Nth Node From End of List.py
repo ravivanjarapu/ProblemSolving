@@ -38,12 +38,14 @@ class Solution:
         for _ in range(n):  # 1 <= n <= sz. So, never goes out of bounds
             right = right.next
 
-        dummy = ListNode(0, head)  # Dummy node added before head https://www.youtube.com/watch?v=XVuQxVej6y8 - NeetCode
-        left = dummy
-        while right:
+        if not right:  # right will be None if we have to remove head. This is the only case.
+            return head.next
+
+        left = head
+        while right.next:  # while right will stop when right is None. We want to stop one step before.
             left, right = left.next, right.next
         left.next = left.next.next  # Removing the next node after left
-        return dummy.next
+        return head
 
 
 obj = Solution()
