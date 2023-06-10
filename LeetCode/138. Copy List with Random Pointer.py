@@ -89,7 +89,7 @@ class Solution:
             newNode = Node(cur.val)
             newNode.next = cur.next
             cur.next = newNode
-            cur = newNode.next
+            cur = newNode.next  # or cur.next.next
 
         cur = head
         while cur:
@@ -99,7 +99,7 @@ class Solution:
 
         # Separate original nodes from new nodes
         cur = head
-        newHead = head.next
+        newHead = head.next  # Backup to get new head later. temp will be traversed
         temp = head.next
         while cur:
             cur.next = cur.next.next

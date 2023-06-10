@@ -36,45 +36,25 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        l1_current, l2_current = l1, l2
-
-        result = ListNode(0)
-        result_current = result
+        result_head = ListNode(0)
+        result_cur = result_head
         carried_value = 0
-        while 1:
-            carried_value, current_value = divmod(l1_current.val + l2_current.val + carried_value, 10)
-            result_current.next = ListNode(current_value)
-            result_current = result_current.next
-            if l1_current.next is None and l2_current.next is None:
-                if carried_value != 0:
-                    result_current.next = ListNode(carried_value)
-                    result_current = result_current.next
-                break
-            elif l1_current.next is None:
-                l1_current.val = 0
-                l2_current = l2_current.next
-            elif l2_current.next is None:
-                l2_current.val = 0
-                l1_current = l1_current.next
-            else:
-                l1_current = l1_current.next
-                l2_current = l2_current.next
-        return result.next
+        while l1 or l2 or carried_value:
+            if l1:
+                carried_value += l1.val
+                l1 = l1.next
 
-    # while l1_current.next is not None or l2_current.next is not None:
-    #     if l1_current.next is None:
-    #         l1_current.val = 0
-    #         l2_current = l2_current.next
-    #     elif l2_current.next is None:
-    #         l2_current.val = 0
-    #         l1_current = l1_current.next
-    #     else:
-    #         l1_current = l1_current.next
-    #         l2_current = l2_current.next
-    #
-    #     carried_value, current_value = divmod(l1_current.val + l2_current.val + carried_value, 10)
-    #     result_current.next = ListNode(current_value)
-    #     result_current = result_current.next
+            if l2:
+                carried_value += l2.val
+                l2 = l2.next
+
+            carried_value, current_value = divmod(carried_value, 10)
+
+            result_cur.next = ListNode(current_value)
+            result_cur = result_cur.next
+
+        return result_head.next
+
 
     def print_result(self):
         l1 = ListNode(9,
