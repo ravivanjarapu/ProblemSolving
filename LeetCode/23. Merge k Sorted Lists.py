@@ -48,16 +48,12 @@ class ListNode:
 
 class Solution:
     """
-    Complexity Analysis
-
     Time complexity : O(Nlogk) where k is the number of linked lists.
-
-    We can merge two sorted linked list in O(n) time where n is the total number of nodes in two lists.
-    Space complexity : O(1)
-
-    We can merge two sorted linked lists in O(1) space.
+    We can merge two sorted linked lists in O(n) time when n is the total number of nodes in two lists.
     """
-    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+
+    def mergeKLists_Recursive(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        """Takes O(nk) space for recursion stack"""
         if len(lists) == 0:
             return None
         elif len(lists) == 1:
@@ -67,29 +63,39 @@ class Solution:
 
         # Divide and Conquer
         mid = len(lists) // 2
-        left_half = self.mergeKLists(lists[:mid])
-        right_half = self.mergeKLists(lists[mid:])
+        left_half = self.mergeKLists_Recursive(lists[:mid])
+        right_half = self.mergeKLists_Recursive(lists[mid:])
         return self.mergeTwoLists(left_half, right_half)
 
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        """Iterative approach -> O(1) space"""
+        if not lists:
+            return None
+
+        while len(lists) > 1:
+            temp = []
+            for i in range(0, len(lists), 2):
+                second_list = lists[i + 1] if i + 1 < len(lists) else None
+                temp.append(self.mergeTwoLists(lists[i], second_list))
+            lists = temp
+        return lists[0]
+
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        if not list1:
-            return list2
-        elif not list2:
-            return list1
-        else:
-            result = ListNode()
-            r = result
-            p, q = list1, list2
-            while p and q:
-                # print("p.val: %d, q.val: %d" % (p.val, q.val))
-                if p.val < q.val:
-                    r.next = p
-                    p = p.next
-                else:
-                    r.next = q
-                    q = q.next
-                r = r.next
-            r.next = p if p else q
+        """
+        Space complexity : O(1) We can merge two sorted linked lists in O(1) space while excluding result space
+        """
+        result = ListNode()
+        cur = result
+        p, q = list1, list2
+        while p and q:
+            if p.val < q.val:
+                cur.next = p
+                p = p.next
+            else:
+                cur.next = q
+                q = q.next
+            cur = cur.next
+        cur.next = p if p else q
         return result.next
 
 
@@ -103,7 +109,7 @@ l2 = ListNode(1,
 l3 = ListNode(2,
               ListNode(6))
 # l1,l2 = ListNode(), ListNode()
-output = obj.mergeKLists([l1, l2, l3])
+output = obj.mergeKLists_Recursive([l1, l2, l3])
 current = output
 while current is not None:
     print(current.val, end=' --> ')
