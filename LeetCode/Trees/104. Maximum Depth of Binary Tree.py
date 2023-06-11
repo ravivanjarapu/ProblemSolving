@@ -31,8 +31,11 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+
 class Solution:
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
+    def maxDepth_deque(self, root: Optional[TreeNode]) -> int:
+        """BFS Solution - https://www.youtube.com/watch?v=hTM3phVI6YQ - NeetCode"""
         result = 0
         if root:
             q = deque()
@@ -40,12 +43,17 @@ class Solution:
 
             while q:
                 qLen = len(q)
-                sub_result = 0
                 for _ in range(qLen):
                     node = q.popleft()
-                    if node:
-                        sub_result = 1
+                    if node.left:
                         q.append(node.left)
+                    if node.right:
                         q.append(node.right)
-                result += sub_result
+                result += 1
         return result
+
+    def maxDepth_recursive(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        return 1 + max(self.maxDepth_recursive(root.left),
+                       self.maxDepth_recursive(root.right))
