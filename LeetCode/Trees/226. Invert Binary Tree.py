@@ -25,6 +25,7 @@ The number of nodes in the tree is in the range [0, 100].
 -100 <= Node.val <= 100
 """
 from typing import Optional
+from collections import deque
 
 
 # Definition for a binary tree node.
@@ -33,13 +34,46 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+
 class Solution:
-    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        # Recursion
+    def invertTree_recursion(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        """This is bottom up"""
         if not root:
             return None
 
-        left_child = self.invertTree(root.left) if root.left else None
-        right_child = self.invertTree(root.right) if root.right else None
+        left_child = self.invertTree_recursion(root.left) if root.left else None
+        right_child = self.invertTree_recursion(root.right) if root.right else None
         root.left, root.right = right_child, left_child
+        return root
+
+    def invertTree_iteration_top_down(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        """This is top down. Faster than recursion"""
+        if not root:
+            return None
+        q = deque([root])
+        while q:
+            cur = q.popleft()
+            cur.left, cur.right = cur.right, cur.left
+            if cur.left:
+                q.append(cur.left)
+            if cur.right:
+                q.append(cur.right)
+
+        return root
+
+    def invertTree_iteration_bottom_up(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        """This is bottom up
+        I think this is best because we don't need t import deque and is iterative"""
+        if not root:
+            return None
+        stack = [root]
+        while stack:
+            cur = stack.pop()
+
+            cur.left, cur.right = cur.right, cur.left
+            if cur.left:
+                stack.append(cur.left)
+            if cur.right:
+                stack.append(cur.right)
         return root
