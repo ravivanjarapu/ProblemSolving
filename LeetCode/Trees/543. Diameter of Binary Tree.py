@@ -40,17 +40,22 @@ class Solution:
         if not root:
             return 0
 
-        all_heights = {}
+        self.all_heights = {}
 
-        def get_height(node):
-            if node and node not in all_heights:
-                left_child_height = all_heights.setdefault(node.left, get_height(node.left))
-                right_child_height = all_heights.setdefault(node.right, get_height(node.right))
-                all_heights[node] = 1 + max(left_child_height, right_child_height)
-            return all_heights.get(node, 0)
+        return self.get_diameter(root)
 
-        left_height, right_height = get_height(root.left), get_height(root.right)
+    def get_height(self, node):
+        if not node:
+            return 0
+        return self.all_heights.setdefault(node, 1 + max(self.get_height(node.left), self.get_height(node.right)))
+
+    def get_diameter(self, node):
+        if not node:
+            return 0
+        left_height, right_height = self.get_height(node.left), self.get_height(node.right)
         current = left_height + right_height
         return max(current,
-                   self.diameterOfBinaryTree(root.left),
-                   self.diameterOfBinaryTree(root.right))
+                   self.get_diameter(node.left),
+                   self.get_diameter(node.right))
+
+
