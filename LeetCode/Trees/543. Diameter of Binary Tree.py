@@ -40,22 +40,17 @@ class Solution:
         if not root:
             return 0
 
-        self.all_heights = {}
-
-        return self.get_diameter(root)
+        self.result = 0
+        self.get_height(root)
+        return self.result
 
     def get_height(self, node):
         if not node:
             return 0
-        return self.all_heights.setdefault(node, 1 + max(self.get_height(node.left), self.get_height(node.right)))
+        left_height = self.get_height(node.left)
+        right_height = self.get_height(node.right)
 
-    def get_diameter(self, node):
-        if not node:
-            return 0
-        left_height, right_height = self.get_height(node.left), self.get_height(node.right)
-        current = left_height + right_height
-        return max(current,
-                   self.get_diameter(node.left),
-                   self.get_diameter(node.right))
+        self.result = max(self.result, left_height + right_height)
+        return 1 + max(left_height, right_height)
 
 
