@@ -39,14 +39,18 @@ class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
-        left_height, right_height = self.get_height(root.left), self.get_height(root.right)
+
+        all_heights = {}
+
+        def get_height(node):
+            if node and node not in all_heights:
+                left_child_height = all_heights.setdefault(node.left, get_height(node.left))
+                right_child_height = all_heights.setdefault(node.right, get_height(node.right))
+                all_heights[node] = 1 + max(left_child_height, right_child_height)
+            return all_heights.get(node, 0)
+
+        left_height, right_height = get_height(root.left), get_height(root.right)
         current = left_height + right_height
         return max(current,
                    self.diameterOfBinaryTree(root.left),
                    self.diameterOfBinaryTree(root.right))
-
-    def get_height(self, root):
-        height = 0
-        if root:
-            return 1 + max(self.get_height(root.left), self.get_height(root.right))
-        return height
