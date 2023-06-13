@@ -37,20 +37,18 @@ class TreeNode:
 
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
+        """Editorial - https://leetcode.com/problems/diameter-of-binary-tree/editorial/"""
+        result = 0
 
-        self.result = 0
-        self.get_height(root)
-        return self.result
+        def get_height(node):
+            if not node:
+                return 0
+            nonlocal result
+            left_height = get_height(node.left)
+            right_height = get_height(node.right)
 
-    def get_height(self, node):
-        if not node:
-            return 0
-        left_height = self.get_height(node.left)
-        right_height = self.get_height(node.right)
+            result = max(result, left_height + right_height)
+            return 1 + max(left_height, right_height)
 
-        self.result = max(self.result, left_height + right_height)
-        return 1 + max(left_height, right_height)
-
-
+        get_height(root)
+        return result
