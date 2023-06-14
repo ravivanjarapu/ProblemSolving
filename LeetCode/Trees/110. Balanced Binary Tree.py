@@ -36,7 +36,7 @@ class TreeNode:
         self.left = left
         self.right = right
 class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+    def isBalanced_slow(self, root: Optional[TreeNode]) -> bool:
         result = True
         if root:
 
@@ -47,7 +47,7 @@ class Solution:
                 left_height = get_height(node.left)
                 right_height = get_height(node.right)
 
-                if not (left_height - right_height) in (-1, 0, 1):
+                if not abs(left_height - right_height) in (0, 1):
                     result = result and False
                 return 1 + max(left_height, right_height)
 
@@ -55,3 +55,21 @@ class Solution:
             right_child_height = get_height(root.right)
             result = result and ((left_child_height - right_child_height) in (-1, 0, 1))
         return result
+
+    def isBalanced_faster(self, root: Optional[TreeNode]) -> bool:
+        """Same time complexity as above. But no overhead of maintaining result"""
+        def get_height(node):
+            if not node:
+                return 0
+            left_height = get_height(node.left)
+            if left_height == -1:
+                return -1
+            right_height = get_height(node.right)
+            if right_height == -1:
+                return -1
+
+            if abs(left_height - right_height) > 1:
+                return -1
+            return 1 + max(left_height, right_height)
+
+        return get_height(root) != -1
