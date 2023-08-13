@@ -37,19 +37,31 @@ class TreeNode:
 
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        """
+        Time complexity: O(N) since one has to visit each node.
+        Space complexity: O(D) to keep the queues, where DDD is a tree diameter. Max level could contain up to N/2 nodes
+        """
         q = deque()
         if root:
             q.append(root)
         result = []
         while q:
             q_len = len(q)
-            sub_result = []
-            for _ in range(q_len):
+            for i in range(q_len):
                 node = q.popleft()
+                '''
+                This won't work when root = [1,2,3,4] output will be [1, 3] while expected is [1, 3, 4]. here 4 is left 
+                node of 2. i will be 0 and q_len will be 4 when this level is traversed in for loop. when i = 4, node 
+                will be empty and result won't be appended
                 if node:
-                    sub_result.append(node.val)
+                    if i == q_len - 1:
+                        result.append(node.val)
                     q.append(node.left)
+                    q.append(node.right)'''
+                if i == q_len - 1:
+                    result.append(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
                     q.append(node.right)
-            if sub_result:
-                result.append(sub_result[-1])  # -1 is the only diff from Level order traversal
         return result
