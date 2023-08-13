@@ -42,9 +42,9 @@ class TreeNode:
 
 
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    def lowestCommonAncestor_recursion(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         """
-        Time Complexity: O(N), where N is the number of nodes in the BST.
+        Time Complexity : O(N), where N is the number of nodes in the BST.
                             In the worst case we might be visiting all the nodes of the BST.
 
         Space Complexity: O(N). This is because the maximum amount of space utilized by the recursion stack would be N
@@ -55,9 +55,28 @@ class Solution:
             return p
 
         if p_val < root_val and q_val < root_val:
-            result = self.lowestCommonAncestor(root.left, p, q)
+            result = self.lowestCommonAncestor_recursion(root.left, p, q)
         elif p_val > root_val and q_val > root_val:
-            result = self.lowestCommonAncestor(root.right, p, q)
+            result = self.lowestCommonAncestor_recursion(root.right, p, q)
         else:
             result = root
         return result
+
+    def lowestCommonAncestor_iteration(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        """
+        Time Complexity : O(N) - Same as above
+        Space Complexity : O(1)
+        """
+        p_val, q_val = p.val, q.val
+        if p_val == q_val:
+            return p
+
+        node = root
+        while node:
+            root_val = node.val
+            if p_val < root_val and q_val < root_val:
+                node = node.left
+            elif p_val > root_val and q_val > root_val:
+                node = node.right
+            else:
+                return node
