@@ -43,18 +43,21 @@ class TreeNode:
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if p.val == q.val:
+        """
+        Time Complexity: O(N), where N is the number of nodes in the BST.
+                            In the worst case we might be visiting all the nodes of the BST.
+
+        Space Complexity: O(N). This is because the maximum amount of space utilized by the recursion stack would be N
+                            since the height of a skewed BST could be N.
+        """
+        p_val, q_val, root_val = p.val, q.val, root.val
+        if p_val == q_val:
             return p
 
-        if p.val == root.val or q.val == root.val:
-            return root
-        if p.val < root.val < q.val:
-            return root
-        if p.val > root.val > q.val:
-            return root
-
-        if p.val < root.val and q.val < root.val:
+        if p_val < root_val and q_val < root_val:
             result = self.lowestCommonAncestor(root.left, p, q)
-        else:  # p.val > root.val and q.val > root.val:
+        elif p_val > root_val and q_val > root_val:
             result = self.lowestCommonAncestor(root.right, p, q)
+        else:
+            result = root
         return result
