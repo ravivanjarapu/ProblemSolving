@@ -51,7 +51,7 @@ class Solution:
 
     def kthSmallest_iterative(self, root: Optional[TreeNode], k: int) -> int:
         # https://www.youtube.com/watch?v=5LUXSvjmGCw -> NeetCode
-        stack, result_array = [], []
+        stack = []
         node = root
         while True:
             while node:
@@ -59,7 +59,7 @@ class Solution:
                 node = node.left
 
             node = stack.pop()
-            result_array.append(node.val)
-            if len(result_array) == k:
-                return result_array[k-1]
+            k -= 1
+            if k == 0:
+                return node.val
             node = node.right
