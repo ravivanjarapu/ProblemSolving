@@ -36,19 +36,30 @@ class TreeNode:
 
 
 class Solution:
-    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+    def kthSmallest_recursive(self, root: Optional[TreeNode], k: int) -> int:
         """Time complexity : O(N) to traverse all nodes in worst case.
             Space complexity : O(N) to maintain recursive stack and result_array"""
         def in_order_traversal(node):
-            if len(result_array) < k:
-                if node.left:
-                    in_order_traversal(node.left)
-
+            if len(result_array) < k and node:
+                in_order_traversal(node.left)
                 result_array.append(node.val)
-
-                if node.right:
-                    in_order_traversal(node.right)
+                in_order_traversal(node.right)
 
         result_array = []
         in_order_traversal(root)
         return result_array[k - 1]
+
+    def kthSmallest_iterative(self, root: Optional[TreeNode], k: int) -> int:
+        # https://www.youtube.com/watch?v=5LUXSvjmGCw -> NeetCode
+        stack, result_array = [], []
+        node = root
+        while True:
+            while node:
+                stack.append(node)
+                node = node.left
+
+            node = stack.pop()
+            result_array.append(node.val)
+            if len(result_array) == k:
+                return result_array[k-1]
+            node = node.right
