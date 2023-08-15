@@ -43,6 +43,11 @@ class TreeNode:
         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(N) we visit every node exactly once and do a constant amount of work each time.
+        Space complexity: O(N) Maintain recursion stack
+        Iteration also takes O(N) space since we need to maintain an array to keep track of good nodes
+        """
         def check(node, current_max):
             sub_result = 0
             if node.val >= current_max:
